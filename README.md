@@ -14,11 +14,14 @@ interact directly with the host computer. The ServerLib file contains methods th
 of a mouse and keyboard.
 
 ##### Client
-There are two versions of the client that can be run, a desktop client can be found in the desktop/MobileRemote/src directory. This is 
-a command line interface that the user can use to send commands to the server. This is good for testing the server functionality.
+There are two versions of the client that can be run, an android application and a desktop commandline interface. 
 
 The main client would be the android application. It allows a user to move the mouse using a phone's touchscreen as a track pad. Make left and right clicks 
-and send text to be typed on the host computer. This client can be found in android/MobileRemote/src.
+and send text to be typed on the host computer. The client will handle these gestures and inputs and send them as commands to the server. 
+This client can be found in android/MobileRemote/src.
+
+The desktop client can be found in the desktop/MobileRemote/src directory. This is a command line interface that the user 
+can use to manually send commands to the server. This client is really just for testing the server functionality and debugging.
 
 
 
