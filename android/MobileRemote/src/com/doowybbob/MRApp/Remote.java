@@ -78,13 +78,20 @@ public class Remote extends ActionBarActivity {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		// handle touch events on the touch screen.
 		int dX, dY;
-		//Log.i("Remote", event.toString());
+		
 		if (event.getAction() == MotionEvent.ACTION_DOWN){
+			// this happens when the user first touches the screen
 			startX = (int)event.getX();
 			startY = (int)event.getY();
 		}
-		else if (event.getAction() == MotionEvent.ACTION_MOVE){
+		else if (event.getAction() == MotionEvent.ACTION_MOVE){ // swipe
+			// this happens after the user has thouched the screen and moved their
+			//finger. The difference between the start position and this position
+			// is used to move the cursor on the server. Every 4th event is used so that
+			// the server isn't flooded with movement commands.
+			
 			counter++;
 			dX = ((int)event.getX() - startX)/3;
 			dY = ((int)event.getY() - startY)/3;
@@ -98,13 +105,15 @@ public class Remote extends ActionBarActivity {
 	}
 	
 	protected void connect (String ipAddr, int port) {
+		//attempt to connect to the server
 		try {
 			ct = new ClientThread(ipAddr, port);
 			ct.start();
 			Context context = getApplicationContext();
 			CharSequence text = "Running!";
 			int duration = Toast.LENGTH_SHORT;
-
+			
+			//alert the user that the client connected to the server
 			Toast toast = Toast.makeText(context, text, duration);
 			toast.show();
 			
@@ -118,6 +127,7 @@ public class Remote extends ActionBarActivity {
 	}
 	
 	protected void setDefault (String ipAddr, int port) {
+		// set the default values for the ip address and port
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(DEFAULT_IP_KEY, ipAddr);
@@ -125,15 +135,15 @@ public class Remote extends ActionBarActivity {
 		editor.commit();
 	}
 	
-	public void leftClick(View v) {
+	public void leftClick(View v) { // on button press, send lc command
 		ct.add("lc");
 	}
 	
-	public void rightClick(View v) {
+	public void rightClick(View v) { // on button press, send rc command
 		ct.add("rc");
 	}
 	
-	public void writeText (View v) {
+	public void writeText (View v) { // send a string of text to be typed
 		EditText text = (EditText)findViewById(R.id.text);
 		ct.add("wr");
 		ct.add(text.getText().toString());
